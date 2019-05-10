@@ -1,0 +1,35 @@
+//方法一：暴力破解，创建一个临时字符串用于保存最长字符串，每取一个字符就与该字符串进行比较，如果相同了就计算长度，并且将第一个字符删除。
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        if(s.size()==0)
+            return 0;
+        string str;
+        str.push_back(s[0]);
+        int maxnum=1;
+        for(int i=1;i<s.size();i++)
+        {
+            int j=0;
+            for(;j<str.size();j++)
+            {
+                if(s[i]==str[j])
+                    break;
+            }
+            if(j==str.size())
+            {
+                str.push_back(s[i]);
+            }  
+            else
+            {
+                str.erase(0,1);
+                i--;
+            }
+            if(str.size()>maxnum)
+            {
+                maxnum = str.size();
+            }
+        }
+        return maxnum;
+    }
+};
