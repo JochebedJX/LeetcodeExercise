@@ -1,1 +1,63 @@
-//方法一：
+/*
+为了解决这个问题，我们需要理解 “中位数的作用是什么”。在统计中，中位数被用来：
+将一个集合划分为两个长度相等的子集，其中一个子集中的元素总是大于另一个子集中的元素。
+如果理解了中位数的划分作用，我们就很接近答案了。
+首先，让我们在任一位置 ii 将 \text{A}A 划分成两个部分：
+
+          left_A             |        right_A
+    A[0], A[1], ..., A[i-1]  |  A[i], A[i+1], ..., A[m-1]
+由于 \text{A}A 中有 mm 个元素， 所以我们有 m+1m+1 种划分的方法（i = 0 \sim mi=0∼m）。
+采用同样的方式，我们在任一位置 jj 将 \text{B}B 划分成两个部分：
+
+          left_B             |        right_B
+    B[0], B[1], ..., B[j-1]  |  B[j], B[j+1], ..., B[n-1]
+把这两个新的集合分别命名为 \text{left\_part}left_part 和 \text{right\_part}right_part：
+
+          left_part          |        right_part
+    A[0], A[1], ..., A[i-1]  |  A[i], A[i+1], ..., A[m-1]
+    B[0], B[1], ..., B[j-1]  |  B[j], B[j+1], ..., B[n-1]
+如果我们可以确认：
+    len(left_part)=len(right_part)
+    max(left_part)≤min(right_part)
+那么，我们已经将 \{\text{A}, \text{B}\}{A,B} 中的所有元素划分为相同长度的两个部分，且其中一部分中的元素总是大于另一部分中的元素。那么：    
+    median=(max(left_part)+min(right_part))/2
+要确保这两个条件，我们只需要保证：
+    i + j = m - i + n - ji+j=m−i+n−j（或：m - i + n - j + 1m−i+n−j+1）如果n≥m，只需要使  i = 0 ~ m, j = (m + n + 1)/2 - i 
+    B[j−1]≤A[i] 以及 A[i−1]≤B[j]
+    
+*/
+    
+    
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int m=nums1.size();
+        int n=nums2.size();
+        vector<double> vec;
+        double result=0;
+        for(int i=0,j=0;(i<m||j<n);)
+        {
+            if((i<m)&&((j>=n)||(nums1[i] <= nums2[j])))
+            {
+                vec.push_back(nums1[i++]);
+            }
+            if((j<n)&&((i>=m)||(nums2[j]<nums1[i])))
+            {
+                vec.push_back(nums2[j++]);
+            }
+        }
+            if((m+n)%2==0)
+            {
+                int a=(m+n)>>1;
+                int b=a-1;
+                result=(vec[a]+vec[b])/2;
+            }
+            else
+            {
+                int a=(m+n)>>1;
+                result=vec[a];
+            }
+        
+        return result;
+    }
+};
