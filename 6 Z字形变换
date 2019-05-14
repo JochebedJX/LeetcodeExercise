@@ -1,1 +1,39 @@
+//通过输出我发现，按照Z字形排列时，对列无影响，所以我用了一个存放string对象的一维数组，按照Z字形排列，数组每个元素都是一个字符串，最终连续输出这些字符串
 
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        string result;//用来保存输出的结果
+        vector<string> vec(numRows);//用于存放Z字形排列的字符串
+        int i=0;
+        int flag=0;//用于判断是往下排，还是往上排
+        for(;i<s.size();i++)
+        {
+            if(flag==0)
+            {
+               for(int j=0;j<numRows;j++)
+                {
+                   if(i<s.size())
+                       vec[j]+=s[i++];
+                   else break;
+                }
+                flag=1;
+                i--;//一定要把i变回来
+            }
+            else if(flag==1)
+            {
+                for(int j=numRows-2;j>0;j--)
+                {
+                    if(i<s.size())
+                       vec[j]+=s[i++];
+                    else break;
+                }
+                flag=0;
+                i--;//同理
+            }
+        }
+        for (int k = 0; k < numRows; k++)
+			result += vec[k];
+		return result;
+    }
+};
