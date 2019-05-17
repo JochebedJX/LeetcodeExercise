@@ -1,1 +1,36 @@
-
+//方法一：暴力法，通过率48/50
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int maxArea=0;
+        for(int i=0;i<height.size();i++)
+        {
+            for(int j=i;j<height.size();j++)
+            {
+                int minhigh=min(height[i],height[j]);
+                int longsize=j-i;
+                maxArea=max(maxArea,minhigh*longsize);
+            }
+        }
+        return maxArea;
+    }
+};
+//方法二:双指针，一前一后
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int i=0;
+        int j=height.size()-1;
+        int res=0;
+        while(i<j)
+        {
+            int temp1=min(height[i],height[j]);//容量由最小的决定
+            int temp2=temp1*(j-i);
+            res=max(res,temp2);
+            if(height[i]<height[j])
+                i++;
+            else j--;
+        }
+        return res;
+    }
+};
