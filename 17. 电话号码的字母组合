@@ -1,0 +1,25 @@
+class Solution {
+    char* num2str[10]={"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+public:
+    void _letterCombinations(const string& digits,size_t i,const string& combinestr,vector<string>& strv) {
+        if(i==digits.size())
+        {
+            strv.push_back(combinestr);
+            return;
+        }                       //'2'
+        string strs = num2str[digits[i]-'0'];
+        for(size_t j=0;j<strs.size();++j)
+        {
+            _letterCombinations(digits,i+1,combinestr+strs[j],strv);
+        }
+    }
+    vector<string> letterCombinations(string digits) {
+        if(digits.empty())
+            return vector<string>();
+        size_t i=0;//用来判断数字执行到哪儿
+        vector<string> strv;//用来push_back存储最终结果
+        string combinestr;//存储每次匹配的结果
+        _letterCombinations(digits,i,combinestr,strv);
+        return strv;
+    }
+};
